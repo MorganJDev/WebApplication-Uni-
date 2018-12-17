@@ -12,6 +12,8 @@ namespace WebApplication1.Controllers
     {
         public IActionResult Index()
         {
+
+
             return View();
         }
 
@@ -22,9 +24,9 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public IActionResult Contact()
+        public IActionResult NewPost()
         {
-            ViewData["Message"] = "Your contact page.";
+            ViewData["Title"] = "Create a new post";
 
             return View();
         }
