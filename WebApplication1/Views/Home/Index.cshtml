@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebApplication1.Models.Post>
+﻿@model Tuple<List<Post>, List<Comment>>
 
 @{
     ViewData["Title"] = "Home Page";
@@ -6,27 +6,55 @@
 }
 
 <style>
-    p.ridge 
+    #border2 
     {
-        border-style: ridge;
+        border: 1px dashed #ccc;
+        margin-bottom: 5px;
+        margin-top: 5px;
+    }
+    #border1 
+    {
+        border: 1.5px solid;
+        margin-bottom: 8px;
+        margin-top: 5px;
+    }
+    #padding1
+    {
+        padding-left: 5px;
+        padding-bottom: 2px;
     }
 </style>
 
 <h1>Home Page</h1>
 
-@foreach (var post in Model)
+@foreach (var post in Model.Item1)
 {
-<center>
-    <p class="ridge">
+<div id="border1">
+    <center>
         <font size="6">@post.Title</font>
-        <br />
-        <br />
+        <hr id="border1" />
         <font size="4">@post.Content</font>
-        <br />
-        <font size="2">@post.Posted</font>
-        <br />
+        <hr id="border1" />
+    </center>
+    <font size="5">Commments</font>
+    <hr id="border1" />
+    @foreach (var comment in Model.Item2)
+    {
+        <div id="padding1">
+            <font size="4">@comment.Content</font>
+            <br />
+            <font size="2">@comment.MemberID</font>
+        </div>
+        @if (Model.Item2.Count > 1)
+        {
+            <hr id="border2" />
+        }
+    }
+    <hr id="border1" />
+    <div id="padding1">
         <button type="button"><a asp-area="" asp-controller="Comments" asp-action="Create">Add Comment</a></button>
-    </p>
-    <br />
-</center>
+        <font size="2">@post.Posted</font>
+    </div>
+</div>
+<br />
 }

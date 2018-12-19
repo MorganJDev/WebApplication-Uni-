@@ -21,8 +21,11 @@ namespace WebApplication1.Controllers
         public IActionResult Index()
         {
             var posts = _context.Post.ToList();
+            var comments = _context.Comment.ToList();
 
-            return View(posts);
+            var tuple = new Tuple<List<Post>, List<Comment>>(posts, comments);
+
+            return View(tuple);
         }
 
         public IActionResult About()
