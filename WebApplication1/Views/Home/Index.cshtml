@@ -6,55 +6,83 @@
 }
 
 <style>
+    .postSpace 
+    {
+        float: left;
+        width: 75%;
+        margin-left: 18px;
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
+    .card 
+    {
+        background-color: white;
+        padding: 5px;
+    }
+    .row:after
+    {
+        content: "";
+        display: table;
+        clear: both;
+        margin-top: 2px;
+    }
+    .content 
+    {
+        background-color: #EAE7E7;
+        width: 127%;
+        padding: 3px;
+        margin-bottom: 5px;
+    }
+
     #border2 
     {
         border: 1px dashed #ccc;
         margin-bottom: 5px;
         margin-top: 5px;
+        margin-right: 3px;
+        width: 60%;
+        width: 127%;
     }
     #border1 
     {
         border: 1.5px solid;
-        margin-bottom: 8px;
-        margin-top: 5px;
+        margin-bottom: 10px;
+        width: 60%;
     }
     #padding1
     {
-        padding-left: 5px;
-        padding-bottom: 2px;
+        padding-left: 3px;
     }
 </style>
 
-<h1>Home Page</h1>
+<center>
+    <h1>Home Page</h1>
+</center>
 
 @foreach (var post in Model.Item1)
 {
-<div id="border1">
-    <center>
-        <font size="6">@post.Title</font>
-        <hr id="border1" />
-        <font size="4">@post.Content</font>
-        <hr id="border1" />
-    </center>
-    <font size="5">Commments</font>
-    <hr id="border1" />
-    @foreach (var comment in Model.Item2)
-    {
-        <div id="padding1">
-            <font size="4">@comment.Content</font>
-            <br />
-            <font size="2">@comment.MemberID</font>
+    <div id="border1">
+        <div class="row">
+            <div class="postSpace">
+                <div class="card">
+                    <h2>@post.Title</h2>
+                    <div class="content" style="height:200px;">@post.Content</div>
+                    @foreach (var comment in Model.Item2)
+                    {
+                        @if (comment.PostId == post.Id)
+                        {
+                            <div id="border2">
+                                <div id="padding1">
+                                    <h5>@comment.Content</h5>
+                                    <h6>@comment.MemberID</h6>
+                                </div>
+                            </div>
+                        }
+                    }
+                    <button type="button"><a asp-controller="Comments" asp-action="Create" asp-route-id="@post.Id">Add Comment</a></button>
+                    <p>@post.Posted</p>
+                </div>
+            </div>
         </div>
-        @if (Model.Item2.Count > 1)
-        {
-            <hr id="border2" />
-        }
-    }
-    <hr id="border1" />
-    <div id="padding1">
-        <button type="button"><a asp-area="" asp-controller="Comments" asp-action="Create">Add Comment</a></button>
-        <font size="2">@post.Posted</font>
     </div>
-</div>
-<br />
 }

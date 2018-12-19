@@ -9,7 +9,7 @@ namespace WebApplication1.Models
     {
         public int Id { get; set; }
         public int PostId { get; set; }
-        public int MemberID { get; set; }
+        public string MemberID { get; set; }
         public string Content { get; set; }
     }
 }
