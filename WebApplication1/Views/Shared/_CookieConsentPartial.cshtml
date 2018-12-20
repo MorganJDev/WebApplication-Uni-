@@ -5,7 +5,7 @@
     var showBanner = !consentFeature?.CanTrack ?? false;
     var cookieString = consentFeature?.CreateConsentCookie();
 }
-
+<httpCookies httpOnlyCookies="true" requireSSL="true" />
 @if (showBanner)
 {
     <nav id="cookieConsent" class="navbar navbar-default navbar-fixed-top" role="alert">

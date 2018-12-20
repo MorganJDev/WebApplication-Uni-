@@ -38,13 +38,6 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public IActionResult NewPost()
-        {
-            ViewData["Title"] = "Create a new post";
-
-            return View();
-        }
-
         [AllowAnonymous]
         public IActionResult Privacy()
         {
