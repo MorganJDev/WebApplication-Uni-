@@ -16,10 +16,11 @@ namespace WebApplication1.Data
         public static async Task Seed(ApplicationDbContext context, UserManager<ApplicationUser> uManager, RoleManager<ApplicationRole> rManager)
         {
             context.Database.EnsureCreated();
+            await SeedRoles(rManager);
             await SeedUsers(uManager, rManager);
         }
 
-        private static async Task SeedUsers(UserManager<ApplicationUser> uManager, RoleManager<ApplicationRole> rManager)
+        private static async Task SeedRoles(RoleManager<ApplicationRole> rManager)
         {
             if (await rManager.FindByNameAsync(adminRole) == null)
             {
@@ -30,7 +31,10 @@ namespace WebApplication1.Data
             {
                 await rManager.CreateAsync(new ApplicationRole(userRole));
             }
+        }
 
+        private static async Task SeedUsers(UserManager<ApplicationUser> uManager, RoleManager<ApplicationRole> rManager)
+        {
             // Admin
             string AdminName = "Member1";
 

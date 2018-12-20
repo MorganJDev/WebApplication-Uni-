@@ -21,6 +21,5 @@ namespace WebApplication1.Models
         [Required]
         [DataType(DataType.Date)]
         public DateTime Posted { get; set; }
-
     }
 }
