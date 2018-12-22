@@ -85,11 +85,13 @@ namespace WebApplication1.Areas.Identity.Pages.Account
                     UserName = Input.UserName,
                     Email = Input.Email,
                     FirstName = Input.FirstName,
-                    LastName = Input.LastName
+                    LastName = Input.LastName,
+                    Role = "User"
                 };
 
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                await _userManager.AddToRoleAsync(user, "User");
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");

@@ -33,7 +33,13 @@
             <ul class="links">
                 <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                 <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                <li><a asp-area="" asp-controller="Posts" asp-action="Create">Create</a></li>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li><a asp-area="" asp-controller="Posts" asp-action="Create">Create</a></li>
+                    }
+                }
             </ul>
             <partial name="_LoginPartial" />
         </nav>
@@ -45,7 +51,7 @@
                 @RenderBody()
                 <hr />
                 <div id="copyright">
-                    <ul><li>&copy; <a href="https://html5up.net/license">2018 - Blogg</a></li><li>Designed By: <a href="html5up.net">https://html5up.net</a></li></ul>
+                    <ul><li>&copy; <a href="https://html5up.net/license">2018 - Blogg</a></li><li>Designed By: <a href="https://html5up.net">https://html5up.net</a></li></ul>
                 </div>
             </div>
         </div>

@@ -19,6 +19,6 @@ namespace WebApplication1.Data
         }
         public DbSet<WebApplication1.Models.Post> Post { get; set; }
         public DbSet<WebApplication1.Models.Comment> Comment { get; set; }
-        public DbSet<WebApplication1.Models.test> test { get; set; }
+        public DbSet<WebApplication1.Models.ApplicationRole> ApplicationRole { get; set; }
     }
 }

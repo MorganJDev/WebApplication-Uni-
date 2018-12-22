@@ -45,7 +45,8 @@ namespace WebApplication1.Data
                     UserName = AdminName,
                     Email = AdminName + "@email.com",
                     FirstName = "",
-                    LastName = ""
+                    LastName = "",
+                    Role = adminRole
                 };
 
                 var result = await uManager.CreateAsync(admin);
@@ -68,7 +69,8 @@ namespace WebApplication1.Data
                         UserName = userName + i,
                         Email = userName + i + "@email.com",
                         FirstName = "",
-                        LastName = ""
+                        LastName = "",
+                        Role = userRole
                     };
 
                     var result = await uManager.CreateAsync(user);
