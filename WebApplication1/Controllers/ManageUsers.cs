@@ -15,6 +15,8 @@ namespace WebApplication1.Controllers
     {
         private readonly ApplicationDbContext _context;
         private UserManager<ApplicationUser> _userManager;
+        private readonly string _admin = "Admin";
+        private readonly string _user = "User";
 
         public ManageUsers(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
@@ -43,16 +45,21 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UserName,Email,FirstName,LastName,Role")] ApplicationUser user)
         {
-            if (ModelState.IsValid)
+            if(user.Role.Equals(_admin) || user.Role.Equals(_user))
             {
-                var result = await _userManager.CreateAsync(user);
-                if (result.Succeeded)
+                if (ModelState.IsValid)
                 {
-                    await _userManager.AddPasswordAsync(user, "Password123!");
-                    await _userManager.AddToRoleAsync(user, user.Role);
+                    var result = await _userManager.CreateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        await _userManager.AddPasswordAsync(user, "Password123!");
+                        await _userManager.AddToRoleAsync(user, user.Role);
+                    }
                 }
+                return RedirectToAction("Index", "ManageUsers");
             }
-            return RedirectToAction("Index", "ManageUsers");
+
+            return View(user);
         }
 
         // GET: ManageUsers/Edit/5
@@ -76,12 +83,13 @@ namespace WebApplication1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("UserName,Email,Role")] ApplicationUser user)
+        public async Task<IActionResult> Edit(string id, [Bind("Email,Role")] ApplicationUser user)
         {
-            var editUser = await _userManager.FindByIdAsync(id);
+            if (user.Role.Equals(_admin) || user.Role.Equals(_user))
+            {
+                            var editUser = await _userManager.FindByIdAsync(id);
             string currentRole = editUser.Role;
 
-            editUser.UserName = user.UserName;
             editUser.Email = user.Email;
             editUser.Role = user.Role;
 
@@ -93,6 +101,7 @@ namespace WebApplication1.Controllers
                     await _userManager.AddToRoleAsync(editUser, editUser.Role);
                     await _userManager.RemoveFromRoleAsync(editUser, currentRole);
                 }
+            }
             }
             return View(user);
         }

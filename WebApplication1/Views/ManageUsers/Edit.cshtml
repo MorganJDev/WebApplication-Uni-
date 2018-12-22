@@ -5,40 +5,41 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div main="id">
-    <h2>Edit</h2>
-
-    <h4>ApplicationRole</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-4">
+<div id="main">
+    <section class="post">
+        <header class="major">
+            <h1>Edit User</h1>
             <form asp-action="Edit">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="Id" />
-                <div class="form-group">
-                    <label asp-for="UserName" class="control-label"></label>
-                    <input asp-for="UserName" class="form-control" />
-                    <span asp-validation-for="UserName" class="text-danger"></span>
+                <div class="fields">
+                    <div class="field">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Email" class="control-label"></label>
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Role" class="control-label"></label>
-                    <input asp-for="Role" class="form-control" />
-                    <span asp-validation-for="Role" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-default" />
+                    <div class="field">
+                        <label asp-for="Role" class="control-label"></label>
+                        <input asp-for="Role" oninput="warning(this.value)" class="form-control" />
+                        <span asp-validation-for="Role" class="text-danger"></span>
+                        <p id="warningtxt" style="color: red; display: none">Role must be 'Admin' or 'User'</p>
+                        <script>
+                            function warning(val) {
+                                if (val == "Admin" || val == "User" || val == "") {
+                                    document.getElementById("warningtxt").style.display = "none";
+                                }
+                                else {
+                                    document.getElementById("warningtxt").style.display = "block";
+                                }
+                            }
+                        </script>
+                    </div>
+                    <div class="field">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
                 </div>
             </form>
-        </div>
-    </div>
-
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div>
+        </header>
+    </section>
 </div>
 
