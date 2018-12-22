@@ -1,4 +1,4 @@
-﻿@model Tuple<List<Post>, List<Comment>, Comment>
+﻿@model Tuple<List<Post>, List<Comment>>
 
 @{
     ViewData["Title"] = "Home Page";
@@ -9,14 +9,14 @@
 <httpCookies httpOnlyCookies="true" requireSSL="true" />
 <div id="main">
     <section>
-        <form method="post" action="#">
+        <form asp-controller="Home" asp-action="Index">
             <div class="row gtr-uniform">
                 <div class="col-6 col-10-large">
-                    <input type="text" name="search" id="search" placeholder="Post title.." />
+                    <input type="text" name="searchQuery"placeholder="Post title.." />
                 </div>
                 <div class="col-1 col-2-xxsmall">
                     <ul class="actions">
-                        <li><a href="#" class="button">Search</a></li>
+                        <input type="submit" value="Search" />
                     </ul>
                 </div>
             </div>

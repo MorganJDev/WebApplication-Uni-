@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
 using WebApplication1.Models;
 
@@ -23,13 +24,19 @@ namespace WebApplication1.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string searchQuery)
         {
-            var posts = _context.Post.ToList();
+            var posts = from post in _context.Post select post;
             var comments = _context.Comment.ToList();
-            var commentNew = new Comment();
+            var postList = _context.Post.ToList();
 
-            var tuple = new Tuple<List<Post>, List<Comment>, Comment>(posts, comments, commentNew);
+            if (!(searchQuery == null || searchQuery == ""))
+            {
+                posts = posts.Where(p => p.Title.Contains(searchQuery));
+                postList = await posts.ToListAsync();
+            }
+
+            var tuple = new Tuple<List<Post>, List<Comment>>(postList, comments);
 
             return View(tuple);
         }
