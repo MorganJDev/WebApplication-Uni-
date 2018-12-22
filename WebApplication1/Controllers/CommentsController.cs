@@ -42,16 +42,12 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int id, [Bind("PostId,MemberID,Content")] Comment comment)
         {
-            if (ModelState.IsValid)
-            {
-                var user = await _userManager.GetUserAsync(User);
-                comment.MemberID = user.UserName;
-                comment.PostId = id;
-                _context.Add(comment);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Home");
-            }
-            return View(comment);
+            var user = await _userManager.GetUserAsync(User);
+            comment.MemberID = user.UserName;
+            comment.PostId = id;
+            _context.Add(comment);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

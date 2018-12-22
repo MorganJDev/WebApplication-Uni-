@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Data;
 using WebApplication1.Models;
@@ -14,18 +15,21 @@ namespace WebApplication1.Controllers
     public class HomeController : Controller
     {
         private ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public HomeController(ApplicationDbContext context)
+        public HomeController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
         {
             var posts = _context.Post.ToList();
             var comments = _context.Comment.ToList();
+            var commentNew = new Comment();
 
-            var tuple = new Tuple<List<Post>, List<Comment>>(posts, comments);
+            var tuple = new Tuple<List<Post>, List<Comment>, Comment>(posts, comments, commentNew);
 
             return View(tuple);
         }

@@ -1,41 +1,57 @@
-﻿@model Tuple<List<Post>, List<Comment>>
+﻿@model Tuple<List<Post>, List<Comment>, Comment>
 
 @{
     ViewData["Title"] = "Home Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<link rel="stylesheet" type="text/css" href="~/css/design.css"/>
-
+<link rel="stylesheet" type="text/css" href="~/css/main.css"/>
 <httpCookies httpOnlyCookies="true" requireSSL="true" />
-<center>
-    <h1>Home Page</h1>
-</center>
-
-@foreach (var post in Model.Item1)
-{
-    <div id="border1">
-        <div class="row">
-            <div class="postSpace">
-                <div class="card">
-                    <h2>@post.Title</h2>
-                    <div class="content" style="height:200px;">@post.Content</div>
-                    @foreach (var comment in Model.Item2)
-                    {
-                        @if (comment.PostId == post.Id)
-                        {
-                            <div id="border2">
-                                <div id="padding1">
-                                    <h5>@comment.Content</h5>
-                                    <h6>@comment.MemberID</h6>
-                                </div>
-                            </div>
-                        }
-                    }
-                    <button type="button"><a asp-controller="Comments" asp-action="Create" asp-route-id="@post.Id">Add Comment</a></button>
-                    <p>@post.Posted</p>
+<div id="main">
+    <section>
+        <form method="post" action="#">
+            <div class="row gtr-uniform">
+                <div class="col-6 col-10-large">
+                    <input type="text" name="search" id="search" placeholder="Post title.." />
+                </div>
+                <div class="col-1 col-2-xxsmall">
+                    <ul class="actions">
+                        <li><a href="#" class="button">Search</a></li>
+                    </ul>
                 </div>
             </div>
+        </form>
+    </section>
+
+    @foreach (var post in Model.Item1)
+    {
+        <div class="box">
+            <article class="post featured">
+                <header class="major">
+                    <span class="date">@post.Posted</span>
+                    <h2>@post.Title</h2>
+                    <p>@post.Content</p>
+                </header>
+            </article>
+            <div class="box">
+                @foreach (var comment in Model.Item2)
+                {
+                    @if (comment.PostId == post.Id)
+                    {
+                        <header>
+                            <span class="date">@comment.MemberID</span>
+                        </header>
+                        <p>@comment.Content</p>
+                    }
+                }
+                <section>
+                    <div class="fields">
+                        <ul class="actions">
+                            <button type="button"><a asp-controller="Comments" asp-action="Create" asp-route-id="@post.Id">Add Comment</a></button>
+                        </ul>
+                    </div>
+                </section>
+            </div>
         </div>
-    </div>
-}
+    }
+</div>
