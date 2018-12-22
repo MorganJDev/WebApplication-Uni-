@@ -29,6 +29,8 @@ namespace WebApplication1.Areas.Identity.Pages.Account.Manage
         }
 
         public string Username { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
 
         public bool IsEmailConfirmed { get; set; }
 
@@ -44,7 +46,6 @@ namespace WebApplication1.Areas.Identity.Pages.Account.Manage
             [EmailAddress]
             public string Email { get; set; }
 
-            [Required]
             [Display(Name = "Username")]
             [DataType(DataType.Text)]
             public string UserName { get; set; }
@@ -72,9 +73,12 @@ namespace WebApplication1.Areas.Identity.Pages.Account.Manage
             var lastName = user.LastName;
 
             Username = userName;
+            FirstName = firstName;
+            LastName = lastName;
 
             Input = new InputModel
             {
+                UserName = userName,
                 Email = email,
                 FirstName = firstName,
                 LastName = lastName
@@ -87,12 +91,13 @@ namespace WebApplication1.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostAsync()
         {
+            var user = await _userManager.GetUserAsync(User);
+            Input.UserName = user.UserName;
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -109,6 +114,9 @@ namespace WebApplication1.Areas.Identity.Pages.Account.Manage
                 }
             }
 
+            user.LastName = Input.LastName;
+            user.FirstName = Input.FirstName;
+            await _userManager.UpdateAsync(user);
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
