@@ -17,7 +17,7 @@ namespace WebApplication1.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        private int PostId;
+        private int postId;
 
         public CommentsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
@@ -28,7 +28,7 @@ namespace WebApplication1.Controllers
         // GET: Comments/Create
         public IActionResult Create(int id)
         {
-            PostId = id;
+            postId = id;
             var comment = new Comment();
             comment.PostId = id;
 
